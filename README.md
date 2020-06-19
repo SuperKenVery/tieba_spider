@@ -6,19 +6,24 @@
 #### 软件架构
 本项目是基于python框架开发的，其内容包含百度贴吧爬虫、新浪微博爬虫、知乎爬虫、前程无忧爬虫等常见的爬虫项目
 
-#### 参与贡献
+多种电商商品数据🐍爬虫，整理收集爬虫练习。每个项目都是我亲手写的。通过实战项目练习解决一般爬虫中遇到的问题。
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+通过每个项目的readme，了解爬取过程分析。
+
+对于精通爬虫的pyer，这将是一个很好的例子减少重复收集轮子的过程。项目经常更新维护，确保即下即用，减少爬取的时间。
+
+对于小白通过✍️实战项目，了解爬虫的从无到有。爬虫可能是一件非常复杂、技术门槛很高的事情，但掌握正确的方法，在短时间内做到能够爬取主流网站的数据，其实非常容易实现，但建议从一开始就要有一个具体的目标。
+
+在目标的驱动下，你的学习才会更加精准和高效。那些所有你认为必须的前置知识，都是可以在完成目标的过程中学到的😁😁😁。
+
+欢迎大家对本项目的不足加以指正，⭕️Issues或者🔔Pr
+
+如果想了解更多，欢迎访问我的个人网站或者添加我的微信
+
+个人网站
+![Image text](https://gitee.com/chengrongkai/uploads/raw/master/images/bizhibihui.png)
+
+个人微信
+![Image text](https://gitee.com/chengrongkai/uploads/raw/master/images/weixin.png)
 
 
-#### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
