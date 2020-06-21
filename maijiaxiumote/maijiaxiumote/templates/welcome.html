@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎来到福利页面</title>
+</head>
+<body>
+    {% for i in all_pic: %}
+        <a href="/{{i}}">{{i}}</a>
+        <p>../../spiderFile/maijiaxiumote/{{i}}</p>
+        <img src="/{{i}}">
+        <br><br>
+    {% endfor %}
+</body>
+</html>
