@@ -1,0 +1,5 @@
+<link rel="stylesheet" href="https://www.cnblogs.com/css/blog-common.min.css?v=PyyhYDRKBG1sYtpoHme_xHO5AMd5iN57I45iBKF8FVY">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="https://www.cnblogs.com/skins/codinglife/bundle-codinglife-mobile.min.css?v=YLOkrTk5E7_pa0CoJzjGN-4x4Qir3rlm737NcHZyQvQ">
+<link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/summerday152/rss">
+<link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/summerday152/rsd.xml">
+<script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
