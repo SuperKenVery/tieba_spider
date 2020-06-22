@@ -17,13 +17,13 @@
 在目标的驱动下，你的学习才会更加精准和高效。那些所有你认为必须的前置知识，都是可以在完成目标的过程中学到的😁😁😁。
 
 项目列表
-- [ ]  百度贴吧
+- [x]  [baidutiebaSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/DianpingCrawler):百度贴吧
 - [x] 博客网站
-- [ ]  丁香园
+- [x]  丁香园
 - [x] 东方财富网
-- [ ]  丁香园
+- [x]  丁香园
 - [x] 京东
-- [ ]  空气质量
+- [x]  空气质量
 - [x] 买家秀模特
 - [x] 蘑菇租房
 - [x] 前程无忧
