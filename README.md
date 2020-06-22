@@ -16,25 +16,28 @@
 
 在目标的驱动下，你的学习才会更加精准和高效。那些所有你认为必须的前置知识，都是可以在完成目标的过程中学到的😁😁😁。
 
+本项目的部分项目借鉴了另一个项目的代码，欢迎大家去star支持
+https://gitee.com/AJay13/ECommerceCrawlers
+
 项目列表
 - [x]  [baidutiebaSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/DianpingCrawler):百度贴吧
-- [x] 博客网站
-- [x]  丁香园
-- [x] 东方财富网
-- [x]  丁香园
-- [x] 京东
-- [x]  空气质量
-- [x] 买家秀模特
-- [x] 蘑菇租房
-- [x] 前程无忧
-- [x] 千图网
-- [x] 学校新闻
-- [x] 同花顺
-- [x] 新浪微博
-- [x] 携程
-- [x] 亿图全景图库
-- [x] zhen800
-- [x] 知乎
+- [x] [blogSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/blogSpider):技术博客网站(博客园、CSDN等等)
+- [x] [dingxiangyuanSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/dingxiangyuanSpider):丁香园(肺炎疫情)
+- [x] [dongfangcaifu](https://gitee.com/chengrongkai/OpenSpiders/tree/master/dongfangcaifu):东方财富网
+- [x] [jingdongSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/jingdongSpider):京东
+- [x] [kongqizhiliang](https://gitee.com/chengrongkai/OpenSpiders/tree/master/kongqizhiliang):空气质量数据
+- [x] [maijiaxiumote](https://gitee.com/chengrongkai/OpenSpiders/tree/master/maijiaxiumote):买家秀模特
+- [x] [moguzufang](https://gitee.com/chengrongkai/OpenSpiders/tree/master/moguzufang):蘑菇租房
+- [x] [qianchengwuyouSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/qianchengwuyouSpider):前程无忧
+- [x] [qiantuwang](https://gitee.com/chengrongkai/OpenSpiders/tree/master/qiantuwang):千图网
+- [x] [schoolNewsAnhuiSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/schoolNewsAnhuiSpider):学校新闻
+- [x] [tonghuashun](https://gitee.com/chengrongkai/OpenSpiders/tree/master/tonghuashun):同花顺
+- [x] [weiboSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/weiboSpider):新浪微博
+- [x] [xiechengjipiao](https://gitee.com/chengrongkai/OpenSpiders/tree/master/xiechengjipiao):携程
+- [x] [yituquanjingSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/yituquanjingSpider):亿图全景图库
+- [x] [zhen800](https://gitee.com/chengrongkai/OpenSpiders/tree/master/zhen800):zhen800
+- [x] [zhihu](https://gitee.com/chengrongkai/OpenSpiders/tree/master/zhihu):知乎
+
 
 
 
