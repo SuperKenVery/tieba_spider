@@ -9,3 +9,8 @@ python3环境
 
 #### 运行程序
 运行main.py
+
+
+#### 附加
+新增了requests的方式采集，支持多线程
+程序入口为requestMethod.py
