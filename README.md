@@ -37,6 +37,7 @@ https://gitee.com/AJay13/ECommerceCrawlers
 - [x] [yituquanjingSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/yituquanjingSpider):亿图全景图库
 - [x] [zhen800](https://gitee.com/chengrongkai/OpenSpiders/tree/master/zhen800):zhen800
 - [x] [zhihu](https://gitee.com/chengrongkai/OpenSpiders/tree/master/zhihu):知乎
+- [x] [doubanSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/doubanSpider):豆瓣影评
 
 
 
