@@ -38,6 +38,7 @@ https://gitee.com/AJay13/ECommerceCrawlers
 - [x] [zhen800](https://gitee.com/chengrongkai/OpenSpiders/tree/master/zhen800):zhen800
 - [x] [zhihu](https://gitee.com/chengrongkai/OpenSpiders/tree/master/zhihu):知乎
 - [x] [doubanSpider](https://gitee.com/chengrongkai/OpenSpiders/tree/master/doubanSpider):豆瓣影评
+- [x] [proxy_pool](https://gitee.com/chengrongkai/OpenSpiders/tree/master/proxy_pool):IP代理池
 
 
 

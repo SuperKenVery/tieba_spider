@@ -1,7 +1,39 @@
 import requests,time,warnings,threading
 import pandas as pd
 from lxml import etree
+import random
 warnings.filterwarnings("ignore")
+
+# 获取代理IP
+def get_proxy():
+    return requests.get("http://127.0.0.1:5010/get/").json()
+
+# 删除失效的代理IP
+def delete_proxy(proxy):
+    requests.get("http://127.0.0.1:5010/delete/?proxy={}".format(proxy))
+
+
+# your spider code
+
+# 利用代理IP请求
+def getHtml(url):
+    # ....
+    retry_count = 5
+    proxy = get_proxy().get("proxy")
+    while retry_count > 0:
+        try:
+            headers = {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'
+                    }
+            print("代理信息:{}".format(proxy))
+            html = requests.get(url,headers=headers, proxies={"http": "http://{}".format(proxy)})
+            # 使用代理访问
+            return html
+        except Exception:
+            retry_count -= 1
+    # 出错5次, 删除代理池中代理
+    delete_proxy(proxy)
+    return None
 
 def getdata(bot,top):
     for i in range(bot,top):
@@ -9,10 +41,9 @@ def getdata(bot,top):
         url0 = "https://search.51job.com/list/000000,000000,0000,00,9,99,%25E6%2595%25B0%25E6%258D%25AE,2,"
         url_end = ".html?"
         url = url0 + str(i) + url_end
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'
-        }
-        html = requests.get(url, headers=headers)
+        html = getHtml(url)
+        if(html == None):
+            continue
         html.encoding = "gbk"
         Html = etree.HTML(html.text)
         # ①岗位名称
@@ -34,9 +65,11 @@ def getdata(bot,top):
         CompanySize = []
         Industry = []
         for i in range(len(DetailUrl)):
-            HtmlInfo = requests.get(DetailUrl[i], headers=headers)
+            HtmlInfo = getHtml(DetailUrl[i])
             HtmlInfo.encoding = "gbk"
             HtmlInfo = etree.HTML(HtmlInfo.text)
+            if(HtmlInfo == None):
+                continue
             # ⑦经验、学历信息等其他信息
             otherinfo = HtmlInfo.xpath('//div[@class="tHeader tHjob"]//div[@class="cn"]/p[@class="msg ltype"]/text()')
             # ⑧岗位详情
@@ -54,7 +87,7 @@ def getdata(bot,top):
             CompanySize.append(ComSize)
             Industry.append(industry)
             # 休眠
-            time.sleep(0.5)
+            time.sleep(random.uniform(0.1,1))
         # 一边爬取一边写入
         data = pd.DataFrame()
         data["岗位名称"] = JobName
@@ -72,38 +105,29 @@ def getdata(bot,top):
             data.to_csv("job_info.csv", mode="a+", header=None, index=None, encoding="gbk")
         except:
             print("跳转官网，无数据")
-        time.sleep(1)
-    print("数据爬取完成!!!!")
+        time.sleep(random.uniform(0.2,0.5))
+        print("数据爬取完成!!!!")
 
-# 此处是创建多个线程的方法，后面可以自行优化
-
-threads = []
-t1 = threading.Thread(target=getdata,args=(1,125))
-threads.append(t1)
-t2 = threading.Thread(target=getdata,args=(125,250))
-threads.append(t2)
-t3 = threading.Thread(target=getdata,args=(250,375))
-threads.append(t3)
-t4 = threading.Thread(target=getdata,args=(375,500))
-threads.append(t4)
-t5 = threading.Thread(target=getdata,args=(500,625))
-threads.append(t5)
-t6 = threading.Thread(target=getdata,args=(625,750))
-threads.append(t6)
-t7 = threading.Thread(target=getdata,args=(750,875))
-threads.append(t7)
-t8 = threading.Thread(target=getdata,args=(875,1000))
-threads.append(t8)
-# t9 = threading.Thread(target=getdata,args=(1000,1125))
-# threads.append(t9)
-# t10 = threading.Thread(target=getdata,args=(1125,1250))
-# threads.append(t10)
-# t11 = threading.Thread(target=getdata,args=(1250,1375))
-# threads.append(t11)
-# t12 = threading.Thread(target=getdata,args=(1375,1500))
-# threads.append(t12)
+# 分配线程任务
+def start_spider(num):
+    start = 1
+    end = 0
+    count = 2000
+    size = count//(num-1)
+    print(size)
+    while num > 1:
+        end = start+size
+        t = threading.Thread(target=getdata,args=(start,end))
+        start = end+1
+        t.start()
+        num = num-1
+    # 分配剩下的任务给新的线程
+    if(end < count):
+        start = end+1
+        end = count
+        t = threading.Thread(target=getdata,args=(start,end))
+        t.start()
 
 if __name__ == "__main__":
-    for t in threads:
-        t.setDaemon(True)
-        t.start()
+    num = 8
+    start_spider(num)
