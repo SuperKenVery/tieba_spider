@@ -31,7 +31,7 @@ import json
 # 数据采集
 class data_spider:
     def __init__(self):
-        self.database = database_util()
+        # self.database = database_util()
         self.headers = {
             "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
         }
@@ -134,8 +134,13 @@ class data_spider:
                         if wb:
                             if wb['id'] in self.weibo_id_list:
                                 continue
+                            # created_at = datetime.strptime(
+                                # wb['created_at'], '%Y-%m-%d')
+                            ### 格式变了,现在是 Fri Mar 26 03:27:41 +0800 2021    
                             created_at = datetime.strptime(
-                                wb['created_at'], '%Y-%m-%d')
+                                wb['created_at'], '%a %b %d %H:%M:%S %z %Y')
+                            created_at = created_at.replace(tzinfo=None)  
+                            ###       
                             since_date = datetime.strptime(
                                 self.since_date, '%Y-%m-%d')
                             if created_at < since_date:
