@@ -29,8 +29,8 @@ class database_util:
 
      # 存储贴吧数据
     def save_tieba_reply(self,data):
-        sql = 'insert tieba_reply(reply_id,creator,content,link) VALUES (%s,%s,%s,%s)'
-        values = [data['reply_id'],data['creator'],data['content'],data['link']]
+        sql = 'insert tieba_reply(reply_id,creator,content,link,sex,location) VALUES (%s,%s,%s,%s,%s,%s)'
+        values = [data['reply_id'],data['creator'],data['content'],data['link'],data['sex'],data['location']]
         self.cursor.execute(sql,values)
         self.conn.commit()
 

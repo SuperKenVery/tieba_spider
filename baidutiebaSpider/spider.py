@@ -40,7 +40,7 @@ class data_spider:
     # 采集百度贴吧的数据
     def spider_tieba(self):
         # 目标地址
-        url = 'https://tieba.baidu.com/f?kw=%E5%AE%89%E5%BE%BD%E5%B7%A5%E7%A8%8B%E5%A4%A7%E5%AD%A6&ie=utf-8'
+        url = 'https://tieba.baidu.com/f?ie=utf-8&kw=%E6%A1%8C%E9%A5%BA'
         self.spider_tieba_list(url)
     
      
@@ -134,6 +134,8 @@ class data_spider:
         author_list = html.xpath('//div[@id="j_p_postlist"]/div/div[@class="d_author"]/ul/li[@class="d_name"]/a/text()')
         content_list = html.xpath('//div[@class="d_post_content j_d_post_content  clearfix"]/text()')
         id_list = html.xpath('//div[@class="d_post_content j_d_post_content  clearfix"]/@id')       
+        author_property_list = html.xpath('//div[@id="j_p_postlist"]/div/div[@class="d_author"]/ul/li[@class="d_name"]/a/@data-field')
+        location_list = html.xpath('//div[@class="post-tail-wrap"]/span[1]/text()')
     
         for j in range(len(id_list)):
             reply_item = dict()
@@ -142,6 +144,16 @@ class data_spider:
             # reply_item['create_time'] = reply_create_time_list[j]
             reply_item['link'] = link            
             reply_item['reply_id'] = id_list[j]
+
+            creator_info=json.loads(author_property_list[j])
+            uid=creator_info['id']
+            info_url=f'https://tieba.baidu.com/home/get/panel?ie=utf-8&id={uid}'
+            info=json.loads(requests.get(info_url,headers=self.headers).text)
+            sex=info['data']['sex']
+            reply_item['sex']=sex
+
+            reply_item['location']=location_list[j]
+            
             reply_result = self.database.query_tieba_reply(reply_item['reply_id'])
             if(not reply_result):
                 self.database.save_tieba_reply(reply_item)

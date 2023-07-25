@@ -16,5 +16,7 @@ CREATE TABLE `tieba_reply` (
   `creator` varchar(64) NOT NULL COMMENT '创建人',
   `content` mediumtext COMMENT '回复内容',
   `link` varchar(2048) DEFAULT NULL COMMENT '帖子链接',
+  `sex` varchar(16) DEFAULT NULL COMMENT '性别',
+  `location` varchar(20) DEFAULT NULL COMMENT '地区',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='百度贴吧帖子回复';
