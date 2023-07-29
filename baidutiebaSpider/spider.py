@@ -29,12 +29,25 @@ from html import unescape
 import time
 import re
 import json
+
+
+from requests.adapters import HTTPAdapter, Retry
+
+s = requests.Session()
+
+retries = Retry(total=10,
+                backoff_factor=0.1,
+                status_forcelist=[ 500, 502, 503, 504 ])
+
+s.mount('http://', HTTPAdapter(max_retries=retries))
+s.mount('https://', HTTPAdapter(max_retries=retries))
+
 # 数据采集
 class data_spider:
     def __init__(self):
         self.database = database_util()
         self.headers = {
-            "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
+            "User-Agent":"Mozilla/5.0 (X11; Linux aarch64; rv:109.0) Gecko/20100101 Firefox/115.0",
         }
   
     # 采集百度贴吧的数据
@@ -76,12 +89,13 @@ class data_spider:
     # 采集百度贴吧列表数据
     def spider_tieba_list(self,url):
         print(url)
-        response = requests.get(url,headers=self.headers)
+        response = s.get(url,headers=self.headers)
         try:
             response_txt = str(response.content,'utf-8')
         except Exception as e:
             response_txt = str(response.content,'gbk')
         # response_txt = str(response.content,'utf-8')
+        print(response_txt)
         bs64_str = re.findall('<code class="pagelet_html" id="pagelet_html_frs-list/pagelet/thread_list" style="display:none;">[.\n\S\s]*?</code>', response_txt)
         
         bs64_str = ''.join(bs64_str).replace('<code class="pagelet_html" id="pagelet_html_frs-list/pagelet/thread_list" style="display:none;"><!--','')
@@ -102,18 +116,18 @@ class data_spider:
         create_time_list = create_time_list[1:]
         print(create_time_list)
         print(create_time_list[1])
+        print("Collecting the list")
         for i in range(len(title_list)):
             item = dict()
             item['create_time'] = create_time_list[i]
             if(item['create_time'] == '广告'):
                 continue
             item['create_time'] = self.get_time_convert(item['create_time'])
-            print(item['create_time'])
             item['title'] = self.filter_emoji(title_list[i])
             item['link'] = 'https://tieba.baidu.com'+link_list[i]
             item['creator'] = self.filter_emoji(creator_list[i]).replace('主题作者: ','')
             item['content'] = self.filter_emoji(item['title'])
-            print(item['creator'])
+            print(f"Post {item['title']} by {item['creator']}")
             # 保存帖子数据
             result = self.database.query_tieba(item['link'])
             if(not result):
@@ -128,35 +142,43 @@ class data_spider:
 
     # 采集帖子详情页
     def spider_tieba_detail(self,link):
-        response = requests.get(link,headers=self.headers)
+        response = s.get(link,headers=self.headers)
         html = etree.HTML(response.text)
         # html = etree.HTML(str(response.content,'utf-8'))
         author_list = html.xpath('//div[@id="j_p_postlist"]/div/div[@class="d_author"]/ul/li[@class="d_name"]/a/text()')
-        content_list = html.xpath('//div[@class="d_post_content j_d_post_content  clearfix"]/text()')
-        id_list = html.xpath('//div[@class="d_post_content j_d_post_content  clearfix"]/@id')       
+        content_list = html.xpath('//div[@class="d_post_content j_d_post_content "]/text()')
+        id_list = html.xpath('//div[@class="d_post_content j_d_post_content "]/@id')       
         author_property_list = html.xpath('//div[@id="j_p_postlist"]/div/div[@class="d_author"]/ul/li[@class="d_name"]/a/@data-field')
         location_list = html.xpath('//div[@class="post-tail-wrap"]/span[1]/text()')
     
+        print("Collecting replies")
         for j in range(len(id_list)):
             reply_item = dict()
-            reply_item['content'] = self.filter_emoji(content_list[j])
-            reply_item['creator'] = self.filter_emoji(author_list[j])
-            # reply_item['create_time'] = reply_create_time_list[j]
-            reply_item['link'] = link            
             reply_item['reply_id'] = id_list[j]
-
-            creator_info=json.loads(author_property_list[j])
-            uid=creator_info['id']
-            info_url=f'https://tieba.baidu.com/home/get/panel?ie=utf-8&id={uid}'
-            info=json.loads(requests.get(info_url,headers=self.headers).text)
-            sex=info['data']['sex']
-            reply_item['sex']=sex
-
-            reply_item['location']=location_list[j]
-            
             reply_result = self.database.query_tieba_reply(reply_item['reply_id'])
-            if(not reply_result):
+            if (not reply_result):
+                reply_item['content'] = self.filter_emoji(content_list[j])
+                reply_item['creator'] = self.filter_emoji(author_list[j])
+                # reply_item['create_time'] = reply_create_time_list[j]
+                reply_item['link'] = link            
+
+                creator_info=json.loads(author_property_list[j])
+                uid=creator_info['id']
+                info_url=f'https://tieba.baidu.com/home/get/panel?ie=utf-8&id={uid}'
+                s.cookies.clear()
+                info=json.loads(s.get(info_url,headers=self.headers).text)
+                if not 'sex' in info['data']:
+                    print(f"No sex, requesting {info_url}, info is {info}")
+                sex=info['data'].get('sex','unknown')
+                reply_item['sex']=sex
+
+                reply_item['location']=location_list[j]
+
+                print(f"Reply by {reply_item['creator']} sex {sex} at {reply_item['location']}")
+            
                 self.database.save_tieba_reply(reply_item)
+            else:
+                print(f"Reply {reply_item['reply_id']} already saved")
         nex_page = html.xpath('//ul[@class="l_posts_num"]/text()/li[@class="l_pager pager_theme_5 pb_list_pager"]/@href')
         nex_page_text = html.xpath('//ul[@class="l_posts_num"]/text()/li[@class="l_pager pager_theme_5 pb_list_pager"]/text()')
         if(len(nex_page)>0):

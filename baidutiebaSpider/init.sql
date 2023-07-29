@@ -1,7 +1,7 @@
 CREATE TABLE `tieba` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(256) NOT NULL COMMENT '帖子标题',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `create_time` timestamp NOT NULL DEFAULT '2001-01-01 00:00:00',
   `creator` varchar(64) NOT NULL COMMENT '创建人',
   `content` mediumtext COMMENT '帖子内容',
   `link` varchar(2048) DEFAULT NULL COMMENT '链接',
@@ -12,7 +12,7 @@ CREATE TABLE `tieba` (
 CREATE TABLE `tieba_reply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `reply_id` varchar(256) NOT NULL COMMENT '回复ID',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `create_time` timestamp NOT NULL DEFAULT '2001-01-01 00:00:00',
   `creator` varchar(64) NOT NULL COMMENT '创建人',
   `content` mediumtext COMMENT '回复内容',
   `link` varchar(2048) DEFAULT NULL COMMENT '帖子链接',
