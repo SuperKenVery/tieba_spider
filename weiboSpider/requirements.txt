@@ -12,6 +12,6 @@ apscheduler==3.6.3
 beautifulsoup4==4.9.1
 flask_wtf==0.14.3
 jieba==0.42.1
-Pillow==7.1.2
+Pillow==9.3.0
 snownlp==0.12.3
 WTForms==2.3.1
